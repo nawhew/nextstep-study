@@ -5,36 +5,24 @@ import java.util.Map;
 
 public class PlayBaseball {
 
-    private final int[] userBalls;
-    private final int[] computerBalls;
+    private final Balls computerBalls;
 
-    private final Map<BaseballResult, Integer> results = new HashMap<>();
-
-    public PlayBaseball(int[] userBalls, int[] computerBalls) {
-        this.userBalls = userBalls;
+    public PlayBaseball(Balls computerBalls) {
         this.computerBalls = computerBalls;
     }
 
     /**
      * 주어진 유저와 컴퓨터의 공들을 바교하여 결과를 만듦니다.
+     * @return
      */
-    public void play() {
-        for (int i = 0; i < this.userBalls.length; i++) {
-            int userBall = this.userBalls[i];
-            this.addResult(userBall, i, this.computerBalls);
+    public String play(Balls userBalls) {
+        final Map<BaseballResult, Integer> results = new HashMap<>();
+        for (int i = 0; i < userBalls.size(); i++) {
+            Ball userBall = userBalls.getBall(i);
+            BaseballResult baseballResult = BaseballResult.calculateResult(userBall, i, computerBalls);
+            results.put(baseballResult, results.getOrDefault(baseballResult, 0) + 1);
         }
-//        return this.baseballResult;
-    }
-
-    /**
-     * 주어진 유저공을 컴퓨터공과 비교하여 결과값의 카운트를 1 증가시킵니다.
-     * @param userBall
-     * @param i
-     * @param computerBalls
-     */
-    public void addResult(int userBall, int i, int[] computerBalls) {
-        BaseballResult baseballResult = BaseballResult.calculateResult(userBall, i, computerBalls);
-        this.results.put(baseballResult, this.results.getOrDefault(baseballResult, 0) + 1);
+        return this.getPrettyPrintResultString(results);
     }
 
     /**
@@ -43,14 +31,14 @@ public class PlayBaseball {
      * 포맷 2 (스트라이크와 볼이 없고 낫싱만 3인 경우) : 낫싱
      * @return
      */
-    public String getPrintResult() {
+    private String getPrettyPrintResultString(Map<BaseballResult, Integer> results) {
         String result = "";
 
-        if (this.isPrintNothing()) {
+        if (this.isPrintNothing(results)) {
             return BaseballResult.NOTHING.getDisplayName();
         }
-        result = this.getPrintStrike(result);
-        result = this.getPrintBall(result);
+        result = this.addPrintStrike(result, results);
+        result = this.addPrintBall(result, results);
         return result;
     }
 
@@ -59,8 +47,8 @@ public class PlayBaseball {
      * @param result
      * @return
      */
-    private String getPrintBall(String result) {
-        Integer ballCount = this.results.get(BaseballResult.BALL);
+    private String addPrintBall(String result, Map<BaseballResult, Integer> results) {
+        Integer ballCount = results.get(BaseballResult.BALL);
         if(ballCount != null && ballCount != 0) {
             if(result.length() != 0) {
                 result = result + " ";
@@ -75,16 +63,16 @@ public class PlayBaseball {
      * @param result
      * @return
      */
-    private String getPrintStrike(String result) {
-        Integer strikeCount = this.results.get(BaseballResult.STRIKE);
+    private String addPrintStrike(String result, Map<BaseballResult, Integer> results) {
+        Integer strikeCount = results.get(BaseballResult.STRIKE);
         if(strikeCount != null && strikeCount != 0) {
             result = strikeCount + " " + BaseballResult.STRIKE.getDisplayName();
         }
         return result;
     }
 
-    private boolean isPrintNothing() {
-        Integer nothingCount = this.results.get(BaseballResult.NOTHING);
+    private boolean isPrintNothing(Map<BaseballResult, Integer> results) {
+        Integer nothingCount = results.get(BaseballResult.NOTHING);
         return nothingCount != null && nothingCount == 3;
     }
 }

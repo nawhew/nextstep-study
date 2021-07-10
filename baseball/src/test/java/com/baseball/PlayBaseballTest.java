@@ -18,14 +18,14 @@ class PlayBaseballTest {
     @DisplayName("유저와 컴퓨터에 주어진 3가지 수를 비교하여 결과를 보는 테스트")
     void play(String userBalls, String computerBalls, String expected) {
         // given
-        int[] userNumberBalls = Arrays.stream(userBalls.split("")).mapToInt(Integer::parseInt).toArray();
-        int[] computerNumberBalls = Arrays.stream(computerBalls.split("")).mapToInt(Integer::parseInt).toArray();
-        PlayBaseball playBaseball = new PlayBaseball(userNumberBalls, computerNumberBalls);
+        Balls userNumberBalls = new Balls(userBalls);
+        Balls computerNumberBalls = new Balls(computerBalls);
+        PlayBaseball playBaseball = new PlayBaseball(computerNumberBalls);
 
         // when
-        playBaseball.play();
+        String result = playBaseball.play(userNumberBalls);
 
         // then
-        assertThat(playBaseball.getPrintResult()).isEqualTo(expected);
+        assertThat(result).isEqualTo(expected);
     }
 }

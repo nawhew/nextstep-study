@@ -23,12 +23,12 @@ public enum  BaseballResult {
      * @param computerBalls
      * @return
      */
-    public static BaseballResult calculateResult(int userBall, int index, int[] computerBalls) {
-        for (int i = 0; i < computerBalls.length; i++) {
-            if(isStrike(userBall, index, computerBalls[i], i)) {
+    public static BaseballResult calculateResult(Ball userBall, int index, Balls computerBalls) {
+        for (int i = 0; i < computerBalls.size(); i++) {
+            if(isStrike(userBall, index, computerBalls.getBall(i), i)) {
                 return BaseballResult.STRIKE;
             }
-            if(isBall(userBall, index, computerBalls[i], i)) {
+            if(isBall(userBall, index, computerBalls.getBall(i), i)) {
                 return BaseballResult.BALL;
             }
         }
@@ -44,8 +44,8 @@ public enum  BaseballResult {
      * @param computerBallIndex
      * @return
      */
-    private static boolean isStrike(int userBall, int userBallIndex, int computerBall, int computerBallIndex) {
-        return userBall == computerBall && userBallIndex == computerBallIndex;
+    private static boolean isStrike(Ball userBall, int userBallIndex, Ball computerBall, int computerBallIndex) {
+        return userBall.equals(computerBall) && userBallIndex == computerBallIndex;
     }
 
     /**
@@ -57,7 +57,7 @@ public enum  BaseballResult {
      * @param computerBallIndex
      * @return
      */
-    private static boolean isBall(int userBall, int userBallIndex, int computerBall, int computerBallIndex) {
-        return userBall == computerBall && userBallIndex != computerBallIndex;
+    private static boolean isBall(Ball userBall, int userBallIndex, Ball computerBall, int computerBallIndex) {
+        return userBall.equals(computerBall) && userBallIndex != computerBallIndex;
     }
 }
