@@ -1,9 +1,6 @@
 package com.baseball;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Balls {
@@ -19,8 +16,17 @@ public class Balls {
 
     private static List<Ball> createRandomBalls(int size) {
         List<Ball> randomBalls = new ArrayList<>();
+        Set<Integer> pickNumbers = new HashSet<>();
         for (int i = 0; i < size; i++) {
-            randomBalls.add(new Ball(createRandomNumber()));
+            int number = 0;
+            while(number <= 0) {
+                number = new Random().nextInt(RANDOM_BALL_NUMBER_MAX_BOUND);
+                if(pickNumbers.contains(number)) {
+                    continue;
+                }
+                pickNumbers.add(number);
+            }
+            randomBalls.add(new Ball(number));
         }
         return randomBalls;
     }
