@@ -21,7 +21,7 @@ public class Balls {
             int number = 0;
             while(number <= 0) {
                 number = new Random().nextInt(RANDOM_BALL_NUMBER_MAX_BOUND);
-                if(pickNumbers.contains(number)) {
+                if(number != 0 && pickNumbers.contains(number)) {
                     continue;
                 }
                 pickNumbers.add(number);

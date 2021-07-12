@@ -18,10 +18,10 @@ public class Application {
             System.out.println(result);
             if(result.equals("3 스트라이크")) {
                 if(askContinueGame()) {
-                    break;
-                } else {
                     playBaseball = new PlayBaseball(new Balls());
                     System.out.println("게임을 다시 시작합니다.");
+                } else {
+                    break;
                 }
             }
         }
@@ -31,7 +31,7 @@ public class Application {
         System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
         while (true) {
             try {
-                return isContinueGame(scanner.nextInt());
+                return isContinueGame(Integer.parseInt(scanner.nextLine()));
             } catch (IllegalArgumentException e) {
                 System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
             }
