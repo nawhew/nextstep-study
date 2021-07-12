@@ -22,7 +22,7 @@ public class Balls {
         for (int i = 0; i < size; i++) {
             randomBalls.add(new Ball(createRandomNumber()));
         }
-        return null;
+        return randomBalls;
     }
 
     private static int createRandomNumber() {
