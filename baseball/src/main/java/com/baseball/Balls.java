@@ -27,7 +27,7 @@ public class Balls {
 
     private static int createRandomNumber() {
         int number = 0;
-        while(number <= 0 || number >= RANDOM_BALL_NUMBER_MAX_BOUND) {
+        while(number <= 0) {
             number = new Random().nextInt(RANDOM_BALL_NUMBER_MAX_BOUND);
         }
         return number;
